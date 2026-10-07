@@ -371,10 +371,8 @@ def watchfn(reloader: SourceFileReloader) -> None:
 
     def iter_py_files() -> Iterator[Path]:
         for reload_dir in reload_dirs:
-            for path in list(reload_dir.rglob("*.py")):
-                yield path.resolve()
-            for path in list(reload_dir.rglob("*.css")):
-                yield path.resolve()
+            yield from (path.resolve() for path in reload_dir.rglob("*.py"))
+            yield from (path.resolve() for path in reload_dir.rglob("*.css"))
 
     reload_dirs = [Path(dir_) for dir_ in reloader.watch_dirs]
     import sys
